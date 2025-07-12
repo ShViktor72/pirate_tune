@@ -4,6 +4,19 @@ from bs4 import BeautifulSoup
 import os
 
 app = Flask(__name__)
+@app.route("/api/debug")
+def debug():
+    query = request.args.get("q")
+    if not query:
+        return "Missing query", 400
+
+    url = f"https://muzofond.fm/search/{query}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+    }
+
+    response = requests.get(url, headers=headers)
+    return response.text  # отдадим HTML как есть
 
 @app.route("/api/address")
 def get_address():
